@@ -125,7 +125,7 @@ class Forex extends CI_Controller {
 			redirect(base_url().$controller."/index","refresh");	
 		}
 		//logCreate($this->param);
-		$this->load->view('base0_view', $this->param);
+		$this->load->view('base_view', $this->param);
 	
 	}
 	
