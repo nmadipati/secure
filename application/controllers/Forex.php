@@ -8,8 +8,8 @@ class Forex extends CI_Controller {
 		$this->param['title']='OPEN LIVE ACCOUNT';
 		//$this->param['fileJs'][]='js/core/anonim.js'; 
 		$this->param['content']=array(
+			'modal',
 			'form', 
-			'modal'
 		);
 		$this->showView(); 
 		
@@ -24,18 +24,25 @@ class Forex extends CI_Controller {
 			//'post'=>$this->input->post()
 		);
 		$type=$this->input->post('type','unknown');
+		//print_r($_REQUEST);
 		if($type=='request'){
 			$respon['title']='NEW LIVE ACCOUNT (CREATED)';
 			$param['data']=$this->convertData();
+			$this->forex->saveData($param['data']);
+//======SAVE TO DATABASE
+			
+			/*
 			$param['module']='liveuser';
 			$param['task']='create';
 			logCreate( 'param:'.print_r($param,1));
 			$param['app_code']='9912310';
 			$result=_runApi($url, $param);
-			$this->param['result']=$result['data'];
+			$this->param['result']=$result;
 			logCreate( 'param:'.print_r($result,1));
 			//$respon['result']=$result;
-			$respon['html']=$this->load->view($this->param['folder'].'liveTable_view',$this->param,true);
+			//$respon['html']=$this->load->view($this->param['folder'].'liveTable_view',$this->param,true);
+			*/
+			$respon['html']="<h3>berhasil</h3>";
 			$ok=1;
 		}
 		
@@ -98,9 +105,7 @@ class Forex extends CI_Controller {
 		echo json_encode($json);
 		exit();
 	}
-	
-	
-	
+	 
 	private function showView(){
 		$name=$this->uri->segment(2,'');
 		
@@ -138,10 +143,12 @@ class Forex extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('formtable');
 		$this->load->helper('language');
+		$this->load->model('forex_model','forex');
 		$this->load->model('country_model','country');
 		$defaultLang="english";
 		$this->lang->load('forex', $defaultLang);
-		$this->param['fileCss']=array(			
+		$this->param['fileCss']=array(	
+			'css/style.css',
 			'contact-form-7-css'=>'css/salmaforex/style.css', 
 			'rs-plugin-settings-css'=>'css/salmaforex/settings.css',
 			'wpt-custom-login-css'=>'css/salmaforex/custom-login.css',
@@ -179,7 +186,8 @@ class Forex extends CI_Controller {
 			'js/envision-2.0.9.4/lib/js/jquery.viewport.mini.js',
 			'js/envision-2.0.9.4/lib/js/jquery.flexslider.js',		
 			'js/jquery-ui-1.9.2.min.js',		
-			'js/forex.js',		
+			'js/forex.js',	
+			'js/bootstrap.js',
 			 
 		);
  
