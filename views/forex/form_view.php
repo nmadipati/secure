@@ -1,9 +1,10 @@
 <div class='container'>
-    <div style='margin-top:30px;background:white'>
+    <div style='margin-top:30px;'>
         <form novalidate="novalidate" name="frm" id0="frm" id="frmLiveAccount" method="POST"  class="form-horizontal" role="form">
 		<input type='hidden' name='type' value='request' />
+			<div class="frame-form-basic">
 			<h2>Personal Data</h2>
-			<table class='formBasic'>
+			<table class='formBasic' border="0">
 			<?=bsInput( lang('forex_fullname'),'name','', lang('forex_inputsuggestion') );?> 
 			<?=bsInput( lang('forex_address'),'address','', lang('forex_inputsuggestion2') );?>
 			<?=bsInput( lang('forex_state'),'state','', lang('forex_inputsuggestion2') );?>
@@ -19,12 +20,14 @@
 		$row2=$this->country->getData($row['id']);	
 		$data[$row['id']]=$row2['name'];
 	}
-	echo form_dropdown("citizen",$data);
+	echo form_dropdown("citizen",$data,101);
 ?>
 		</td></tr>
 		<?=bsInput( lang('forex_agent'),'agent','', lang('forex_inputsuggestion') );?>	
-		
-		
+		</table>
+		</div>
+		<div class="frame-form-basic">
+		<table>
 		<tr><td colspan=3>
 			<h2>Contact Information</h2>
 		</td></tr> 
@@ -39,13 +42,15 @@
 			</div></td>
 		</tr>	
 		</table>
- 
-            <div class="form-group">
+			<div class="form-group">
                 <label class="col-sm-3 control-label"></label>
                 <div class="col-sm-5">
                     <input name="submit" id="submit" value="Create Account" class="btn btn-info" type="button" onclick="createLiveUser()">
                 </div>
             </div>
+		</div>
+ 
+            
         </form>
     </div>
 </div>

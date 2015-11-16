@@ -5,8 +5,7 @@ class Forex extends CI_Controller {
 	public $param;	
 	public function index()
 	{
-		$this->param['title']='OPEN LIVE ACCOUNT';
-		//$this->param['fileJs'][]='js/core/anonim.js'; 
+		$this->param['title']='OPEN LIVE ACCOUNT'; 
 		$this->param['content']=array(
 			'modal',
 			'form', 
@@ -20,15 +19,14 @@ class Forex extends CI_Controller {
 		$url=$this->config->item('api_url');
 		$this->load->helper('api');
 		$respon=array(		
-			'html'=>print_r($_REQUEST,1),
-			//'post'=>$this->input->post()
+			'html'=>print_r($_REQUEST,1), 
 		);
-		$type=$this->input->post('type','unknown');
-		//print_r($_REQUEST);
+		$type=$this->input->post('type','unknown'); 
+		
 		if($type=='request'){
 			$respon['title']='NEW LIVE ACCOUNT (CREATED)';
 			$param['data']=$this->convertData();
-			$this->forex->saveData($param['data']);
+			$stat=$this->forex->saveData($param['data'],$message);
 //======SAVE TO DATABASE
 			
 			/*
@@ -42,8 +40,10 @@ class Forex extends CI_Controller {
 			//$respon['result']=$result;
 			//$respon['html']=$this->load->view($this->param['folder'].'liveTable_view',$this->param,true);
 			*/
-			$respon['html']="<h3>berhasil</h3>";
-			$ok=1;
+			if($stat!==false){
+				$respon['html']="<h3>berhasil</h3>";
+				$ok=1;
+			}
 		}
 		
 		if(!isset($ok)){
@@ -76,8 +76,7 @@ class Forex extends CI_Controller {
 		}else{ 
 			$this->errorMessage('276','unknown app code');
 		}
-		
-		//$respon['post']=$param;
+		 
 		$this->succesMessage($respon);
 	}
 	
@@ -91,6 +90,7 @@ class Forex extends CI_Controller {
 			'message'=>'succes'
 		  )
 		);
+		
 		exit();	
 	}
 	
@@ -101,14 +101,17 @@ class Forex extends CI_Controller {
 			'code'=>$code, 
 			'message'=>$message 
 		  );
-		if(count($data)!=0) $json['data']=$data;
+		  
+		if(count($data)!=0) 
+			$json['data']=$data;
+		
 		echo json_encode($json);
+		
 		exit();
 	}
 	 
 	private function showView(){
-		$name=$this->uri->segment(2,'');
-		
+		$name=$this->uri->segment(2,'');		
 		if($name!=''){
 			$jsScript=$this->param['folder'].$this->uri->segment(2).".js";
 			$this->param['dataUrl']=  $this->uri->segment(1). "_".$name;
@@ -129,7 +132,7 @@ class Forex extends CI_Controller {
 			if($controller=='')$controller='forex';
 			redirect(base_url().$controller."/index","refresh");	
 		}
-		//logCreate($this->param);
+		 
 		$this->load->view('base_view', $this->param);
 	
 	}

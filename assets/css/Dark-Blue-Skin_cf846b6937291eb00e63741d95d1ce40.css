@@ -28,7 +28,7 @@ html .sidebar-widget-title > span { border-color: #3f7fba; }
 html body.layout--boxed { background-image: url(https://www.salmaforex.com/wp-content/themes/envision-2.0.9.4/lib/patterns/wood_texture.png); background-repeat: repeat; }
 html .layout--boxed #page-wrap { border-color: #2D5C88; -webkit-box-shadow:0 0 10px rgba(0,0,0,0.4); -moz-box-shadow:0 0 10px rgba(0,0,0,0.4); box-shadow:0 0 10px rgba(0,0,0,0.4); }
 html #top-bar, html #header-container #top-bar { color: #7c7c7c; }
-html #top-bar-background { background-color:#c7c1c7; background-image: none ; }
+html #top-bar-background { background-color:#white; background-image: none ; }
 html #top-bar-text, html #header-container #top-bar-text { color: #fafafa; }
 html #top-bar-text a, html #header-container #top-bar-text a, html #header-container #top-bar-widgets a { color: #7c7c7c; }
 html #top-bar-text a:hover, html #header-container #top-bar-text a:hover, html #header-container #top-bar-widgets a:hover { color: #333333; }
@@ -58,7 +58,7 @@ html #side-panel a:hover { color: #FFFFFF; }
 html .side-panel-row-separator { background-color: #577da0; }
 html #side-panel select, html #side-panel textarea, html #side-panel input[type=text], html #side-panel input[type=password], html #side-panel input[type=datetime], html #side-panel input[type=datetime-local], html #side-panel input[type=date], html #side-panel input[type=month], html #side-panel input[type=time], html #side-panel input[type=week], html #side-panel input[type=number], html #side-panel input[type=email], html #side-panel input[type=url], html #side-panel input[type=search], html #side-panel input[type=tel], html #side-panel input[type=color] { background-color: #24496b; border-color: #1b3752; color: #ebeff4; }
 html #side-panel select:focus, html #side-panel textarea:focus, html #side-panel input[type=text]:focus, html #side-panel input[type=password]:focus, html #side-panel input[type=datetime]:focus, html #side-panel input[type=datetime-local]:focus, html #side-panel input[type=date]:focus, html #side-panel input[type=month]:focus, html #side-panel input[type=time]:focus, html #side-panel input[type=week]:focus, html #side-panel input[type=number]:focus, html #side-panel input[type=email]:focus, html #side-panel input[type=url]:focus, html #side-panel input[type=search]:focus, html #side-panel input[type=tel]:focus, html #side-panel input[type=color]:focus { background-color: #214465; border-color: #19334b; }
-html footer { background-color: #3b3b3b; }
+html footer { background-color: #000; }
 html footer .ui--darker { background-color: #2f2f2f; color: #ececec; }
 html footer .ui--darker-hover:hover { background-color: #232323; color: #FFFFFF; }
 html footer .seperator { background-color: #898989; }
@@ -72,7 +72,7 @@ html #footer-widgets a.muted:hover { color: #ececec; }
 html footer select, html footer textarea, html footer input[type="text"], html footer input[type="password"], html footer input[type="datetime"], html footer input[type="datetime-local"], html footer input[type="date"], html footer input[type="month"], html footer input[type="time"], html footer input[type="week"], html footer input[type="number"], html footer input[type="email"], html footer input[type="url"], html footer input[type="search"], html footer input[type="tel"], html footer input[type="color"] { background-color: #2f2f2f; border-color: #232323; color: #ececec; }
 html footer select:focus, html footer textarea:focus, html footer input[type="text"]:focus, html footer input[type="password"]:focus, html footer input[type="datetime"]:focus, html footer input[type="datetime-local"]:focus, html footer input[type="date"]:focus, html footer input[type="month"]:focus, html footer input[type="time"]:focus, html footer input[type="week"]:focus, html footer input[type="number"]:focus, html footer input[type="email"]:focus, html footer input[type="url"]:focus, html footer input[type="search"]:focus, html footer input[type="tel"]:focus, html footer input[type="color"]:focus { background-color: #2c2c2c; border-color: #202020; }
 html #footer-bottom { background-color: #2d2d2d; border-top-color: #222222; }
-html #footer-bottom { background-repeat: repeat; background-image: url(https://www.salmaforex.com/wp-content/themes/envision-2.0.9.4/lib/patterns/escheresque_ste.png); background-repeat: repeat; }
+html #footer-bottom { background-repeat: repeat; background-image: url(../img/escheresque_ste.png); background-repeat: repeat; }
 html #footer-bottom, html #footer-bottom a { color: #9c9c9c; }
 html #footer-bottom a:hover { color: #FFFFFF; }
 html #page-content .muted, html #page-content .ui--box .muted, html #page-content a.muted, html #page-content .ui--box a.muted { color: #9a9a9a; }
