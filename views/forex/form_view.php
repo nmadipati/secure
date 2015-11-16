@@ -1,3 +1,5 @@
+<?php 
+defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class='container'>
     <div style='margin-top:30px;'>
         <form novalidate="novalidate" name="frm" id0="frm" id="frmLiveAccount" method="POST"  class="form-horizontal" role="form">
@@ -27,10 +29,8 @@
 		</table>
 		</div>
 		<div class="frame-form-basic">
-		<table>
-		<tr><td colspan=3>
-			<h2>Contact Information</h2>
-		</td></tr> 
+		<h2>Contact Information</h2>
+		<table class='formBasic' border="0"> 
 			<?=bsInput( lang('forex_email'),'email','', lang('forex_inputsuggestion') );?>
 			<?=bsInput( lang('forex_phone'),'phone','', lang('forex_inputsuggestion') );?>
 		<tr>

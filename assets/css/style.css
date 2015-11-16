@@ -361,3 +361,10 @@ html .frame-form-basic h2{
 	width:250px;
 	text-align:center;
 }
+
+#input_name,#input_address,#input_state,#input_city, #input_email{
+	width:90% !important;
+}
+#input_phone{
+	width:70% !important;
+}

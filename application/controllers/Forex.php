@@ -3,6 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Forex extends CI_Controller {
 	public $param;	
+	public function listUser()
+	{
+		$this->param['title']='OPEN LIVE ACCOUNT'; 
+		$this->param['content']=array(
+			'listUser', 
+		);
+		$this->showView(); 
+		
+	}
+	
 	public function index()
 	{
 		$this->param['title']='OPEN LIVE ACCOUNT'; 
