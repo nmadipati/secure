@@ -13,7 +13,7 @@ class Forex extends CI_Controller {
 		
 	}
 	
-	public function index()
+	public function register()
 	{
 		$this->param['title']='OPEN LIVE ACCOUNT'; 
 		$this->param['content']=array(
@@ -24,6 +24,11 @@ class Forex extends CI_Controller {
 		
 	}
 	
+	public function index()
+	{
+		redirect(base_url('forex/register'));
+	}
+	
 	public function data()
 	{
 		$url=$this->config->item('api_url');
@@ -32,7 +37,7 @@ class Forex extends CI_Controller {
 			'html'=>print_r($_REQUEST,1), 
 		);
 		$type=$this->input->post('type','unknown'); 
-		
+		$message='unknown data type';
 		if($type=='request'){
 			$respon['title']='NEW LIVE ACCOUNT (CREATED)';
 			$param['data']=$this->convertData();
@@ -57,7 +62,7 @@ class Forex extends CI_Controller {
 		}
 		
 		if(!isset($ok)){
-			$this->errorMessage('266','unknown data type');
+			$this->errorMessage('266',$message);
 		}
 		
 		$this->succesMessage($respon);

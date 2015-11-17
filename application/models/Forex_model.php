@@ -51,8 +51,8 @@ public $tableWorld='mujur_register';
 		$sql="select count(reg_id) c from {$this->tableRegis} where
 		reg_email='$email'";
 		$res=$this->db->query($sql)->row_array();
-		if($res['c']!==0){
-			$message='Email already register';
+		if($res['c']!=0){
+			$message='Email already register';//.json_encode($res);
 			return false;
 		}
 		unset($data['type']);
@@ -63,7 +63,8 @@ public $tableWorld='mujur_register';
 			'reg_created'=>date("Y-m-d H:i:s"),
 			'reg_email'=>$email,
 		);
-		$this->db->insert($this->table, $dt);
+		$this->db->insert($this->tableRegis, $dt);
+		$message='Your account successfull registered';
 		return true;
 	}
 		
