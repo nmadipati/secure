@@ -1,5 +1,4 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div class='container'>
     <div style='margin-top:30px;'>
         <form novalidate="novalidate" name="frm" id0="frm" id="frmLiveAccount" method="POST"  class="form-horizontal" role="form">
@@ -7,14 +6,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 			<div class="frame-form-basic">
 			<h2>Personal Data</h2>
 			<table class='formBasic' border="0">
-			<?=bsInput( lang('forex_fullname'),'name','', lang('forex_inputsuggestion') );?> 
+			<?=bsInput( lang('forex_firstname'),'firstname','', lang('forex_inputsuggestion') );?> 
+			<?=bsInput( lang('forex_lastname'),'lastname','', lang('forex_inputsuggestion') );?> 
 			<?=bsInput( lang('forex_address'),'address','', lang('forex_inputsuggestion2') );?>
 			<?=bsInput( lang('forex_state'),'state','', lang('forex_inputsuggestion2') );?>
+			 
 			<?=bsInput( lang('forex_city'),'city','', lang('forex_inputsuggestion2') );?>
-			<?=bsInput( lang('forex_zipcode'),'zipcode','', lang('forex_inputsuggestion2') );?>
+			<?=bsInput( lang('forex_zipcode'),'zipcode','', lang('forex_inputsuggestion') );?>
 			<tr>
 			<td><label for="input_date"><?=lang('forex_country');?></label></td><td>&nbsp;</td>
-			<td><div class="form-group">
+			<td>
+			<div class="form-group">
 <?php 
 	$all= $this->country->getAll(); //id only
 	$data=array();
@@ -24,7 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');?>
 	}
 	echo form_dropdown("citizen",$data,101);
 ?>
-		</td></tr>
+		</div>
+		</td>
+		</tr>
 		<?=bsInput( lang('forex_agent'),'agent','', lang('forex_inputsuggestion') );?>	
 		</table>
 		</div>

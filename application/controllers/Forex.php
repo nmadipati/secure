@@ -3,6 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Forex extends CI_Controller {
 	public $param;	
+	
+	public function fake(){ echo "12;"; }
+	public function runApi(){
+		$url=$this->config->item('api_url');		
+		$param['app_code']='9912310';
+		$param['module']='forex';
+		$param['task']='register';
+		$result=_runApi($url, $param);
+		echo 'run:'.$url.'<pre>';
+		var_dump($result);
+	}
+	
 	public function listUser()
 	{
 		$this->param['title']='OPEN LIVE ACCOUNT'; 
@@ -56,8 +68,13 @@ class Forex extends CI_Controller {
 			//$respon['html']=$this->load->view($this->param['folder'].'liveTable_view',$this->param,true);
 			*/
 			if($stat!==false){
-				$respon['html']="<h3>berhasil</h3>";
+				$respon['html']="<h3>berhasil</h3> Silakan Menunggu Konfirmasi dari Email anda";
 				$ok=1;
+				$url=$this->config->item('api_url');		
+				$param['app_code']=$this->config->item('app_code')[0];
+				$param['module']='forex';
+				$param['task']='register';
+				$result=_runApi($url, $param);
 			}
 		}
 		
@@ -87,12 +104,27 @@ class Forex extends CI_Controller {
 			$this->load->model('forex_model','modelku');
 			$param=$this->input->post('data');
 			$function= strtolower($module ).ucfirst(strtolower($task ));
-				$respon=$this->modelku->$function($param );
+			//	$respon=$this->modelku->$function($param );
+			$file='views/api/'.$function.'_data.php';
+			if(is_file($file)){
+				$res =$this->load->view('api/'.$function.'_data', $param,true);
+				$respon=json_decode($res,1);
+			}else{ 
+				$this->errorMessage('277','unknown action');
+			}
 		}else{ 
 			$this->errorMessage('276','unknown app code');
 		}
-		 
-		$this->succesMessage($respon);
+		
+		if(isset($respon['succes'])){	
+			$this->succesMessage($respon);
+		}else{ 
+			$respon=array( 
+				'raw'=>$res,
+				'req'=>$_REQUEST
+			);
+			$this->errorMessage('334','unknown error',$respon );
+		}
 	}
 	
 	private function succesMessage($respon)
@@ -161,6 +193,8 @@ class Forex extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('formtable');
 		$this->load->helper('language');
+		$this->load->helper('api');
+		$this->load->helper('db');
 		$this->load->model('forex_model','forex');
 		$this->load->model('country_model','country');
 		$defaultLang="english";
@@ -203,10 +237,9 @@ class Forex extends CI_Controller {
 			'js/envision-2.0.9.4/lib/js/waypoints-sticky.js',
 			'js/envision-2.0.9.4/lib/js/jquery.viewport.mini.js',
 			'js/envision-2.0.9.4/lib/js/jquery.flexslider.js',		
-			'js/jquery-ui-1.9.2.min.js',		
-			'js/forex.js',	
+			'js/jquery-ui-1.9.2.min.js',			
 			'js/bootstrap.js',
-			 
+			 'js/forex.js',	
 		);
  
 		$this->param['description']="Trade now with the best and most transparent forex STP broker";
