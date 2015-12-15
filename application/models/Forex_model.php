@@ -84,7 +84,7 @@ public $demo=1;
 		
 		$sql="select count(reg_id) c from {$this->tableRegis} where
 		reg_email='$email'";
-		$res=dbQuery($sql); //$this->db->query($sql)->row_array();
+		$res= $this->db->query($sql)->row_array();
 		if($res['c']!=0){
 			$message='Email already register';//.json_encode($res);
 			return false;
