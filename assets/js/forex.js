@@ -39,7 +39,7 @@ function createLiveUser(){
 
 function checkInput(){
 	stat=1
-	stat=checkMoreThan(jQuery('#input_name'),2);
+	//stat=checkMoreThan(jQuery('#input_name'),2);
 	if(stat==1)stat=checkMoreThan(jQuery('#input_address'),2);
 	if(stat==1)stat=checkMoreThan(jQuery('#input_state'),2);
 	if(stat==1)stat=checkMoreThan(jQuery('#input_city'),2);
@@ -64,11 +64,13 @@ function checkInput(){
 }
 
 function checkEmail(target){
+	return true;
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     return re.test(target.val());
 	
 }
 function checkMoreThan(target, length){
+	console.log(target);
 	if(target.val().length<=length){
 		console.log('error :'+target.attr('name'));
 		console.log('error :'+target.val().length);
