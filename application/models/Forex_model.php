@@ -5,7 +5,7 @@ public $tableRegis='mujur_register';
 public $tableWorld='mujur_country'; 
 public $tableAccount='mujur_account';
 public $url="http://localhost/forex/fake";
-public $demo=1;
+public $demo=0;
         public function __construct()
         {
             $this->load->database();
@@ -19,7 +19,7 @@ public $demo=1;
 		$dt=array(
 			'id'=>$id,
 			'username'=>$detail['username'],
-			'date'=>date("Y-m-d")
+			'created'=>date("Y-m-d")
 		);
 		$sql=$this->db->insert_string($this->tableAccount,$dt);
 		dbQuery($sql,1);
