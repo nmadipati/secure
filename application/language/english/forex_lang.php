@@ -21,5 +21,13 @@ $lang['forex_phone']='Phone';
 $lang['forex_pass']='Access Password';
 $lang['forex_passconfirm']='Confirm Access Password';
 $lang['forex_agent']='Agent';
+//============
 
+$lang['forex_done']='Please Wait for Activation';
+$lang['forex_done']='Activation Success';
+$lang['forex_activation_not_valid']='Activation is not valid';
+$lang['forex_code_used']='Code Has been Use';
+
+$lang['forex_activation_account_active']='Account Has Been Active';
+$lang['forex_expired']='Code Has Been Expired';
 ?>
