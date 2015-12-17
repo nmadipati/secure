@@ -4,9 +4,10 @@ ob_start();
 $succes=false;
  
 $register=$this->forex->regisAll(30);
-
+$data=array();
 foreach($register as $row){
 	$dt=$this->forex->regisDetail($row['id']);
+	if($dt['status']!=1) continue;
 	$arr=array('r'=>$row,'raw'=>$dt);
 //=================send
 	$url=$this->forex->forexUrl();
@@ -38,11 +39,14 @@ foreach($register as $row){
 	$arr['url']=$url;
 	$result= _runApi($url );
 	if((int)$result==1){
-		$this->forex->accountCreate($row['id']);
-		$arr['accountCreate']=$row['id'];
+		$id=$this->forex->accountActivation($row['id'],$result);
+		$arr['accountActivation']=$id;
 	}
 	else{ 
 		$arr['accountCreate']=false;
+		logCreate('url:'.$this->forex->forexUrl().'|respon:'.$result.'|url:'.$url, 
+			'error');
+		
 	}
 	$arr['result']=$result;
 	

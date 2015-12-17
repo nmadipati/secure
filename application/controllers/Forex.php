@@ -3,8 +3,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Forex extends CI_Controller {
 	public $param;	
+	public function activation($kode='null'){
+		$this->param['title']='OPEN LIVE ACCOUNT ACTIVATION'; 
+		$this->param['content']=array(  );
+		 
+		if($this->input->post('kode')==''){
+			$row=$this->forex->activationDetail($kode);
+			
+			
+			if(!isset($res)&&$row['status']!=0){
+				logCreate('data not valid:'.print_r($row,1),'error');
+				$this->param['content'][]= 'activationError' ;
+				$res=true;
+			}
+				
+			if(!isset($res)&&!isset($row['id'])){
+				
+				logCreate('forex code not valid code:'.$kode,'error');
+				$this->param['content'][]= 'activationError' ;
+				$res=true;
+			}
+			
+			if(!isset($res)&&isset($row['id'])){
+				$this->param['kode']=$kode; 
+				//$this->load->view('forex/activation_view',$data);
+				$this->param['content'][]= 'activation';
+				$res=true;
+			}
+		}else{		
+			$this->param['post']=$_POST;
+			$this->param['content'][]= 'activationData' ;
+		}
+		$this->showView();
+	}
 	
-	public function fake(){ echo "12;"; }
+	public function sendmail(){
+		if(defined('LOCAL')){
+			echo 'no email send';
+		}else{
+			mail("gundambison@gmail.com","test","----this is a test----");
+		}
+	}
+	public function fake($status='none'){ 
+		if(defined('LOCAL')){
+			if($status=='none'){
+				$res= "1;11001724"; 
+				
+			}
+			
+			if($status=='activation'){
+				$res="1";
+			}
+			//
+			if(!isset($res)){ 
+				$res='1;11001724';
+				//echo $raw."<br/>".base64_encode($raw);
+				//MTsxMTAwMTcyNA==
+				$id=$this->forex->accountActivation(5,$raw);
+				$res.="id:$id";
+			}
+			echo $res;
+		}else{ 
+			echo "no respond";
+		}
+	}
 	public function runApi(){
 		$url=$this->config->item('api_url');		
 		$param['app_code']='9912310';
