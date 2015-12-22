@@ -3,16 +3,104 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Forex extends CI_Controller {
 	public $param;	
-	public function index()
+	public function activation($kode='null'){
+		$this->param['title']='OPEN LIVE ACCOUNT ACTIVATION'; 
+		$this->param['content']=array(  );
+		 
+		if($this->input->post('kode')==''){
+			$row=$this->forex->activationDetail($kode);
+			
+			
+			if(!isset($res)&&$row['status']!=0){
+				logCreate('data not valid:'.print_r($row,1),'error');
+				$this->param['content'][]= 'activationError' ;
+				$res=true;
+			}
+				
+			if(!isset($res)&&!isset($row['id'])){
+				
+				logCreate('forex code not valid code:'.$kode,'error');
+				$this->param['content'][]= 'activationError' ;
+				$res=true;
+			}
+			
+			if(!isset($res)&&isset($row['id'])){
+				$this->param['kode']=$kode; 
+				//$this->load->view('forex/activation_view',$data);
+				$this->param['content'][]= 'activation';
+				$res=true;
+			}
+		}else{		
+			$this->param['post']=$_POST;
+			$this->param['content'][]= 'activationData' ;
+		}
+		$this->showView();
+	}
+	
+	public function sendmail(){
+		if(defined('LOCAL')){
+			echo 'no email send';
+		}else{
+			mail("gundambison@gmail.com","test","----this is a test----");
+		}
+	}
+	public function fake($status='none'){ 
+		if(defined('LOCAL')){
+			if($status=='none'){
+				$res= "1;11001724"; 
+				
+			}
+			
+			if($status=='activation'){
+				$res="1";
+			}
+			//
+			if(!isset($res)){ 
+				$res='1;11001724';
+				//echo $raw."<br/>".base64_encode($raw);
+				//MTsxMTAwMTcyNA==
+				$id=$this->forex->accountActivation(5,$raw);
+				$res.="id:$id";
+			}
+			echo $res;
+		}else{ 
+			echo "no respond";
+		}
+	}
+	public function runApi(){
+		$url=$this->config->item('api_url');		
+		$param['app_code']='9912310';
+		$param['module']='forex';
+		$param['task']='register';
+		$result=_runApi($url, $param);
+		echo 'run:'.$url.'<pre>';
+		var_dump($result);
+	}
+	
+	public function listUser()
 	{
-		$this->param['title']='OPEN LIVE ACCOUNT';
-		//$this->param['fileJs'][]='js/core/anonim.js'; 
+		$this->param['title']='OPEN LIVE ACCOUNT'; 
 		$this->param['content']=array(
-			'form', 
-			'modal'
+			'listUser', 
 		);
 		$this->showView(); 
 		
+	}
+	
+	public function register()
+	{
+		$this->param['title']='OPEN LIVE ACCOUNT'; 
+		$this->param['content']=array(
+			'modal',
+			'form', 
+		);
+		$this->showView(); 
+		
+	}
+	
+	public function index()
+	{
+		redirect(base_url('forex/register'));
 	}
 	
 	public function data()
@@ -20,27 +108,40 @@ class Forex extends CI_Controller {
 		$url=$this->config->item('api_url');
 		$this->load->helper('api');
 		$respon=array(		
-			'html'=>print_r($_REQUEST,1),
-			//'post'=>$this->input->post()
+			'html'=>print_r($_REQUEST,1), 
 		);
-		$type=$this->input->post('type','unknown');
+		$type=$this->input->post('type','unknown'); 
+		$message='unknown data type';
 		if($type=='request'){
 			$respon['title']='NEW LIVE ACCOUNT (CREATED)';
 			$param['data']=$this->convertData();
+			$stat=$this->forex->saveData($param['data'],$message);
+//======SAVE TO DATABASE
+			
+			/*
 			$param['module']='liveuser';
 			$param['task']='create';
 			logCreate( 'param:'.print_r($param,1));
 			$param['app_code']='9912310';
 			$result=_runApi($url, $param);
-			$this->param['result']=$result['data'];
+			$this->param['result']=$result;
 			logCreate( 'param:'.print_r($result,1));
 			//$respon['result']=$result;
-			$respon['html']=$this->load->view($this->param['folder'].'liveTable_view',$this->param,true);
-			$ok=1;
+			//$respon['html']=$this->load->view($this->param['folder'].'liveTable_view',$this->param,true);
+			*/
+			if($stat!==false){
+				$respon['html']="<h3>berhasil</h3> Silakan Menunggu Konfirmasi dari Email anda";
+				$ok=1;
+				$url=$this->config->item('api_url');		
+				$param['app_code']=$this->config->item('app_code')[0];
+				$param['module']='forex';
+				$param['task']='register';
+				$result=_runApi($url, $param);
+			}
 		}
 		
 		if(!isset($ok)){
-			$this->errorMessage('266','unknown data type');
+			$this->errorMessage('266',$message);
 		}
 		
 		$this->succesMessage($respon);
@@ -65,13 +166,27 @@ class Forex extends CI_Controller {
 			$this->load->model('forex_model','modelku');
 			$param=$this->input->post('data');
 			$function= strtolower($module ).ucfirst(strtolower($task ));
-				$respon=$this->modelku->$function($param );
+			//	$respon=$this->modelku->$function($param );
+			$file='views/api/'.$function.'_data.php';
+			if(is_file($file)){
+				$res =$this->load->view('api/'.$function.'_data', $param,true);
+				$respon=json_decode($res,1);
+			}else{ 
+				$this->errorMessage('277','unknown action');
+			}
 		}else{ 
 			$this->errorMessage('276','unknown app code');
 		}
 		
-		//$respon['post']=$param;
-		$this->succesMessage($respon);
+		if(isset($respon['succes'])){	
+			$this->succesMessage($respon);
+		}else{ 
+			$respon=array( 
+				'raw'=>$res,
+				'req'=>$_REQUEST
+			);
+			$this->errorMessage('334','unknown error',$respon );
+		}
 	}
 	
 	private function succesMessage($respon)
@@ -84,6 +199,7 @@ class Forex extends CI_Controller {
 			'message'=>'succes'
 		  )
 		);
+		
 		exit();	
 	}
 	
@@ -94,16 +210,17 @@ class Forex extends CI_Controller {
 			'code'=>$code, 
 			'message'=>$message 
 		  );
-		if(count($data)!=0) $json['data']=$data;
+		  
+		if(count($data)!=0) 
+			$json['data']=$data;
+		
 		echo json_encode($json);
+		
 		exit();
 	}
-	
-	
-	
+	 
 	private function showView(){
-		$name=$this->uri->segment(2,'');
-		
+		$name=$this->uri->segment(2,'');		
 		if($name!=''){
 			$jsScript=$this->param['folder'].$this->uri->segment(2).".js";
 			$this->param['dataUrl']=  $this->uri->segment(1). "_".$name;
@@ -124,8 +241,8 @@ class Forex extends CI_Controller {
 			if($controller=='')$controller='forex';
 			redirect(base_url().$controller."/index","refresh");	
 		}
-		//logCreate($this->param);
-		$this->load->view('base0_view', $this->param);
+		 
+		$this->load->view('base_view', $this->param);
 	
 	}
 	
@@ -138,10 +255,14 @@ class Forex extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('formtable');
 		$this->load->helper('language');
+		$this->load->helper('api');
+		$this->load->helper('db');
+		$this->load->model('forex_model','forex');
 		$this->load->model('country_model','country');
 		$defaultLang="english";
 		$this->lang->load('forex', $defaultLang);
-		$this->param['fileCss']=array(			
+		$this->param['fileCss']=array(	
+			'css/style.css',
 			'contact-form-7-css'=>'css/salmaforex/style.css', 
 			'rs-plugin-settings-css'=>'css/salmaforex/settings.css',
 			'wpt-custom-login-css'=>'css/salmaforex/custom-login.css',
@@ -178,9 +299,9 @@ class Forex extends CI_Controller {
 			'js/envision-2.0.9.4/lib/js/waypoints-sticky.js',
 			'js/envision-2.0.9.4/lib/js/jquery.viewport.mini.js',
 			'js/envision-2.0.9.4/lib/js/jquery.flexslider.js',		
-			'js/jquery-ui-1.9.2.min.js',		
-			'js/forex.js',		
-			 
+			'js/jquery-ui-1.9.2.min.js',			
+			'js/bootstrap.js',
+			 'js/forex.js',	
 		);
  
 		$this->param['description']="Trade now with the best and most transparent forex STP broker";

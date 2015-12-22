@@ -6,11 +6,12 @@ public $table='mujur_country';
         {
             $this->load->database();
         }
+		
 	function getAll()
 	{
 		$sql="select 
 		 `country_id` id from {$this->table}";
-		return $this->db->query($sql)->result_array();
+		return dbFetch($sql);//$this->db->query($sql)->result_array();
 	}
 /*	
 	If not valid, Create New

@@ -47,5 +47,8 @@ if(isset($footerJS)){
 <?php 
 	}
 }else{ echo '<!--no footer js -->'; } ?>
+<script type="text/javascript">try{Typekit.load({
+     active: function() {}
+});}catch(e){}</script>
 </body>
 </html>

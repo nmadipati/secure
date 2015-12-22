@@ -15,13 +15,37 @@ if ( ! function_exists('bsInput')){
 			'placeholder'	=> $info
 		);
 
-		$inp= form_input($data);
-//<input type="text" class="form-control" id="input_'.$name.'" placeholder="'.$info.'">
+		$inp= form_input($data); 
 		$str='<tr><td><label for="input_'.$name.'">'.$title.'</label></td><td>&nbsp;</td>
 		<td><div class="form-group">'.$inp.'</div></td></tr>';
 	return $str;
-	}
 	
+	}
+}else{}
+
+if ( ! function_exists('bsInputPass')){
+	function bsInputPass($title,$name, $value='',$info=''){
+		if($info=='')$info='please input correct data';
+		$data = array(
+			'name'          => $name,
+			'id'            => 'input_'.$name,
+			'value'         => $value,
+			'autocomplete'	=> 'off',
+			'class'			=> 'form-control',
+			'type'			=> 'password',
+			'placeholder'	=> $info
+		);
+
+		$inp= form_input($data); 
+		$str='<tr><td><label for="input_'.$name.'">'.$title.'</label></td><td>&nbsp;</td>
+		<td><div class="form-group">'.$inp.'</div></td></tr>';
+	return $str;
+	
+	}
+}else{}
+
+
+if( ! function_exists('bsText')){
 	function bsText($title,$name, $value='',$rows=0,$cols=0){
 		$cols=$cols==0?60:$cols;
 		$rows=$rows==0?3:$rows;
@@ -39,8 +63,11 @@ if ( ! function_exists('bsInput')){
 		$str='<div class="form-group">
     <label for="input_'.$name.'">'.$title.'</label>'.$inp.'</div>';
 	return $str;
-	}
 	
+	}
+}else{} 
+
+if( ! function_exists('bsSelect')){	
 	function bsSelect($title, $name, $data='',$default=''){
 	$attributes = array(
  			'id'            => 'input_'.$name,
@@ -50,8 +77,11 @@ if ( ! function_exists('bsInput')){
 		$str='<div class="form-group">
     <label for="input_'.$name.'">'.$title.'</label>'.$inp.'</div>';
 	return $str;
-	}
 	
+	}
+}else{} 
+
+if( ! function_exists('bsButton')){		
 	function bsButton($value='',$type=1,$class='',$aData=array() ){
 		$str='<button type="%s" class="btn %s" %s>%s</button>';
 		$typeButton=$type==1?'submit':'button';
@@ -61,5 +91,6 @@ if ( ! function_exists('bsInput')){
 			$oth.="\t$nm=\"".addslashes($val)."\"";
 		}
 	return sprintf($str, $typeButton,$classButton,$oth, $value);
+	
 	}
-}
+}else{}
